@@ -73,15 +73,18 @@ body{font-family:var(--sans);background:var(--night);color:var(--ink);overflow-x
 .showcase-head h2 em{font-style:italic;color:var(--amber)}
 .showcase-head p{max-width:380px;font-size:13px;line-height:1.85;color:rgba(246,241,234,.58)}
 .showcase-track{max-width:1560px;margin:0 auto;display:flex;gap:clamp(16px,2.1vw,32px);align-items:flex-start;perspective:1400px}
-.showcase-card{position:relative;flex:1 1 0;min-width:0;aspect-ratio:3/4;border-radius:16px;overflow:hidden;transform-style:preserve-3d;transform:translateY(var(--ty,0px));box-shadow:0 26px 64px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.08);opacity:0;animation:cardIn .95s cubic-bezier(.16,.84,.3,1) forwards;transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s}
-.showcase-card:nth-child(1){--ty:30px;animation-delay:.12s}
-.showcase-card:nth-child(2){--ty:0px;animation-delay:.26s}
-.showcase-card:nth-child(3){--ty:38px;animation-delay:.4s}
-.showcase-card:nth-child(4){--ty:12px;animation-delay:.54s}
-.showcase-card:hover{transform:translateY(calc(var(--ty,0px) - 16px)) scale(1.035) rotateX(2deg);box-shadow:0 38px 88px rgba(0,0,0,.68),inset 0 0 0 1px rgba(216,154,87,.4);z-index:5}
+.showcase-card{position:relative;flex:1 1 0;min-width:0;aspect-ratio:3/4;border-radius:16px;overflow:hidden;transform-style:preserve-3d;transform:translateY(var(--ty,0px));box-shadow:0 26px 64px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.08);opacity:0;animation:cardIn .95s cubic-bezier(.16,.84,.3,1) forwards,waveFloat 5.4s ease-in-out infinite;transition:box-shadow .5s}
+.showcase-card:nth-child(1){--ty:30px;animation-delay:.12s,calc(.12s + .95s + 0s)}
+.showcase-card:nth-child(2){--ty:0px;animation-delay:.26s,calc(.26s + .95s + .65s)}
+.showcase-card:nth-child(3){--ty:38px;animation-delay:.4s,calc(.4s + .95s + 1.3s)}
+.showcase-card:nth-child(4){--ty:12px;animation-delay:.54s,calc(.54s + .95s + 1.95s)}
+.showcase-card:hover{animation-play-state:running,paused;transform:translateY(calc(var(--ty,0px) - 16px)) scale(1.035) rotateX(2deg);box-shadow:0 38px 88px rgba(0,0,0,.68),inset 0 0 0 1px rgba(216,154,87,.4);z-index:5}
 .showcase-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.72) brightness(.7);transition:transform .75s,filter .5s}
 .showcase-card:hover img{transform:scale(1.09);filter:saturate(.95) brightness(.86)}
 .showcase-card::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(12,7,4,.18) 0%,rgba(12,7,4,.05) 38%,rgba(12,7,4,.92) 100%)}
+.showcase-card.is-illustrated img{filter:saturate(1.02) brightness(.94);object-position:center top}
+.showcase-card.is-illustrated:hover img{filter:saturate(1.1) brightness(1)}
+.showcase-card.is-illustrated::after{background:linear-gradient(to bottom,rgba(46,26,16,.16) 0%,rgba(46,26,16,.02) 40%,rgba(32,18,10,.72) 70%,rgba(24,14,8,.95) 100%)}
 .sc-no{position:absolute;top:20px;left:22px;z-index:2;font-family:var(--serif);font-size:14px;letter-spacing:.12em;color:var(--amber)}
 .sc-wave{position:absolute;top:22px;right:20px;z-index:2;display:flex;gap:3px;align-items:center;height:20px;opacity:.9}
 .sc-wave i{display:block;width:2px;background:var(--amber);border-radius:2px}
@@ -91,6 +94,7 @@ body{font-family:var(--sans);background:var(--night);color:var(--ink);overflow-x
 .sc-body h3{font-family:var(--serif);font-size:clamp(23px,2.1vw,34px);font-weight:400;line-height:1.12;letter-spacing:-.01em;margin-bottom:11px}
 .sc-body p{font-size:12px;line-height:1.7;color:rgba(246,241,234,.74)}
 @keyframes cardIn{from{opacity:0;transform:translate(70px,calc(var(--ty,0px) + 28px)) rotate(4deg)}to{opacity:1;transform:translate(0,var(--ty,0px)) rotate(0)}}
+@keyframes waveFloat{0%,100%{transform:translateY(var(--ty,0px))}50%{transform:translateY(calc(var(--ty,0px) - 24px))}}
 @media(max-width:900px){
   .showcase{padding:44px 24px 64px}
   .showcase-head{flex-direction:column;align-items:flex-start;gap:14px;margin-bottom:24px}
@@ -98,7 +102,8 @@ body{font-family:var(--sans);background:var(--night);color:var(--ink);overflow-x
   .showcase-head p{max-width:100%;font-size:12px}
   .showcase-track{overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding:6px 4px 18px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .showcase-track::-webkit-scrollbar{display:none}
-  .showcase-card{flex:0 0 66vw;max-width:290px;scroll-snap-align:center}
+  .showcase-card{flex:0 0 66vw;max-width:290px;scroll-snap-align:center;animation:cardIn .95s cubic-bezier(.16,.84,.3,1) forwards}
+  .showcase-card:hover{animation-play-state:running}
 }
 
 /* ===== 所有版块都浮在同一张画布上，透明背景，让连续渐变与脊线透出来 ===== */
@@ -325,26 +330,26 @@ body{font-family:var(--sans);background:var(--night);color:var(--ink);overflow-x
     <p>从云端庄园到你的杯中，每一步都值得慢慢来。向下探索，或直接跳到你感兴趣的一段。</p>
   </div>
   <div class="showcase-track">
-    <a class="showcase-card" href="#story-chapters">
-      <img src="assets/farm-sourcing.png" alt="高海拔咖啡庄园">
+    <a class="showcase-card is-illustrated" href="#story-chapters">
+      <img src="assets/illustration-sourcing.png" alt="寻豆插画：咖啡果枝与麻袋咖啡豆">
       <span class="sc-no">01 / 04</span>
       <span class="sc-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
       <div class="sc-body"><div class="en">Sourcing · 寻豆</div><h3>走进云端庄园</h3><p>海拔两千米，只在最佳产季采摘，让每一颗果实饱满而干净。</p></div>
     </a>
-    <a class="showcase-card" href="#story-chapters">
-      <img src="assets/bean-mandheling.jpg" alt="小批量烘焙">
+    <a class="showcase-card is-illustrated" href="#story-chapters">
+      <img src="assets/illustration-roasting.png" alt="烘焙插画：小型烘焙机与咖啡豆">
       <span class="sc-no">02 / 04</span>
       <span class="sc-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
       <div class="sc-body"><div class="en">Roasting · 烘焙</div><h3>火候里的分寸</h3><p>小批量、分曲线精准烘焙，恰到好处地唤醒豆子本身的甜感。</p></div>
     </a>
-    <a class="showcase-card" href="academy.html">
-      <img src="assets/craft-pour.jpg" alt="手冲咖啡">
+    <a class="showcase-card is-illustrated" href="academy.html">
+      <img src="assets/illustration-brewing.png" alt="手冲插画：滤杯与分享壶">
       <span class="sc-no">03 / 04</span>
       <span class="sc-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
       <div class="sc-body"><div class="en">Brewing · 手冲</div><h3>水流写的诗</h3><p>注水的节奏、闷蒸的时间，把耐心一点点变成杯中的风味。</p></div>
     </a>
-    <a class="showcase-card" href="stores.html">
-      <img src="assets/sharing-cups.png" alt="分享咖啡">
+    <a class="showcase-card is-illustrated" href="stores.html">
+      <img src="assets/illustration-sharing.png" alt="分享插画：摩卡壶与碰杯咖啡">
       <span class="sc-no">04 / 04</span>
       <span class="sc-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
       <div class="sc-body"><div class="en">Sharing · 分享</div><h3>把风味交给你</h3><p>从烘焙机到你的杯子，好咖啡值得被认真分享。</p></div>
