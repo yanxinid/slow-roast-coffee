@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>精品咖啡豆 — 慢焙咖啡 SLOW ROAST</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+<style>
+/* ---- Hero ---- */
+.phero{position:relative;padding-top:calc(var(--nav-h) + clamp(56px,7vw,110px));padding-bottom:clamp(60px,8vw,120px);background:var(--cream);overflow:hidden}
+.phero .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);align-items:center}
+.phero .copy h1{font-family:var(--serif);font-weight:400;font-size:clamp(46px,6vw,96px);line-height:1.06;margin-top:24px;letter-spacing:-.01em}
+.phero .copy h1 em{font-style:italic;color:var(--brown)}
+.phero .copy .lead{margin-top:28px;font-size:clamp(14px,1.1vw,17px);line-height:1.95;color:var(--ink-soft);max-width:520px}
+.phero .copy .actions{margin-top:38px;display:flex;gap:14px;flex-wrap:wrap}
+.phero .figure{position:relative;height:clamp(340px,38vw,560px);border-radius:3px;overflow:hidden}
+.phero .figure img{width:100%;height:100%;object-fit:cover}
+.phero .figure::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--cream),transparent 26%)}
+.phero .cap{position:absolute;right:16px;bottom:14px;font-size:10px;letter-spacing:.24em;color:rgba(246,241,234,.85);text-transform:uppercase;z-index:2}
+
+/* ---- 本周精选 ---- */
+.featured{background:var(--paper)}
+.fcards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.6vw,40px)}
+.fcard{background:var(--cream);border:1px solid var(--line-light);border-radius:3px;overflow:hidden;transition:transform .5s var(--ease),box-shadow .5s}
+.fcard:hover{transform:translateY(-8px);box-shadow:0 26px 50px rgba(43,27,18,.12)}
+.fcard .img{height:clamp(200px,20vw,280px);overflow:hidden;position:relative}
+.fcard .img img{width:100%;height:100%;object-fit:cover;transition:transform .8s}
+.fcard:hover .img img{transform:scale(1.06)}
+.fcard .roast{position:absolute;top:14px;left:14px;background:rgba(22,14,9,.72);color:var(--amber);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:7px 13px;border-radius:30px;backdrop-filter:blur(6px)}
+.fcard .body{padding:24px}
+.fcard .origin{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brown-2);font-weight:600}
+.fcard h3{font-family:var(--serif);font-weight:400;font-size:clamp(24px,2vw,30px);margin:8px 0 12px}
+.fcard .flavor{font-size:13px;line-height:1.8;color:var(--muted);min-height:46px}
+.fcard .row{display:flex;justify-content:space-between;align-items:center;margin-top:20px;padding-top:18px;border-top:1px solid var(--line-light)}
+.fcard .price{font-family:var(--serif);font-size:24px;color:var(--ink)}
+.fcard .buy{font-size:12px;font-weight:600;color:var(--brown);display:inline-flex;gap:6px;align-items:center}
+
+/* ---- 全部豆单表格 ---- */
+.beans-table{width:100%;border-collapse:collapse}
+.beans-table th{text-align:left;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--brown-2);font-weight:600;padding:0 18px 18px 0;border-bottom:1px solid var(--ink);white-space:nowrap}
+.beans-table td{padding:22px 18px 22px 0;border-bottom:1px solid var(--line-light);font-size:14px;color:var(--ink-soft);vertical-align:middle}
+.beans-table tr:last-child td{border-bottom:none}
+.beans-table .bn{font-family:var(--serif);font-size:19px;color:var(--ink);white-space:nowrap}
+.beans-table .tag{display:inline-block;font-size:11px;padding:5px 12px;border:1px solid var(--line-light);border-radius:30px;color:var(--ink-soft);white-space:nowrap}
+.beans-table .bp{font-family:var(--serif);font-size:20px;color:var(--brown);white-space:nowrap}
+.table-mobile{display:none}
+
+@media(max-width:960px){
+  .phero .grid{grid-template-columns:1fr;gap:40px}
+  .phero .figure{height:clamp(280px,52vw,440px)}
+  .phero .figure::after{background:linear-gradient(0deg,var(--cream),transparent 30%)}
+  .fcards{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:680px){
+  .fcards{grid-template-columns:1fr}
+  .beans-table{display:none}
+  .table-mobile{display:block}
+  .bm-item{padding:20px 0;border-bottom:1px solid var(--line-light)}
+  .bm-item:last-child{border-bottom:none}
+  .bm-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .bm-top .bn{font-family:var(--serif);font-size:21px}
+  .bm-top .bp{font-family:var(--serif);font-size:20px;color:var(--brown)}
+  .bm-meta{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.7}
+  .bm-tags{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+  .bm-tags .tag{font-size:11px;padding:4px 10px;border:1px solid var(--line-light);border-radius:30px;color:var(--ink-soft)}
+  .phero .copy .actions .btn{width:100%}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="index.html" class="brand" aria-label="慢焙咖啡首页"><span class="mark"></span><div>慢焙<small>SLOW ROAST</small></div></a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html" data-page="index.html">首页</a>
+    <a href="beans.html" data-page="beans.html">精品咖啡豆</a>
+    <a href="story.html" data-page="story.html">品牌故事</a>
+    <a href="stores.html" data-page="stores.html">门店空间</a>
+    <a href="academy.html" data-page="academy.html">冲煮学院</a>
+  </div>
+  <a href="beans.html" class="nav-cta">立即选购 →</a>
+  <button class="nav-toggle" aria-label="打开菜单"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<header class="phero" data-theme="light">
+  <div class="wrap grid">
+    <div class="copy reveal">
+      <div class="kicker">Our Beans · 咖啡豆系列</div>
+      <h1>一颗豆子的<br><em>风味地图</em></h1>
+      <p class="lead">从埃塞俄比亚的高原，到印尼的雨林。我们把每一支豆子独有的风土与性格，完整地带到你的杯中。每周新鲜烘焙，限量呈现。</p>
+      <div class="actions">
+        <a href="#featured" class="btn btn-primary">浏览本周精选 <span>→</span></a>
+        <a href="#all" class="btn btn-ghost-light">查看全部豆单</a>
+      </div>
+    </div>
+    <div class="figure reveal">
+      <img src="assets/story-latte.jpg" alt="咖啡师精心冲煮">
+      <span class="cap">SLOW ROAST · SINGLE ORIGIN</span>
+    </div>
+  </div>
+</header>
+
+<!-- 本周精选 -->
+<section class="section featured" id="featured" data-theme="light">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="kicker">This Week · 本周精选</div><h2 class="sec-title">值得一试的<em>三支豆子</em></h2></div>
+      <p class="right">只挑选当季最新鲜、风味最清晰的批次。每一支，都有自己的故事。</p>
+    </div>
+    <div class="fcards">
+      <article class="fcard reveal">
+        <div class="img"><img src="assets/bean-yegacheffe.jpg" alt="耶加雪菲水洗"><span class="roast">Light Roast · 浅烘</span></div>
+        <div class="body">
+          <div class="origin">Ethiopia · 埃塞俄比亚</div>
+          <h3>耶加雪菲 · 水洗</h3>
+          <p class="flavor">茉莉花香、佛手柑、蜂蜜甜感，明亮而干净，像清晨的第一缕光。</p>
+          <div class="row"><span class="price">¥128</span><a href="#all" class="buy">了解更多 →</a></div>
+        </div>
+      </article>
+      <article class="fcard reveal">
+        <div class="img"><img src="assets/bean-colombia.jpg" alt="哥伦比亚蜜处理"><span class="roast">Medium Roast · 中烘</span></div>
+        <div class="body">
+          <div class="origin">Colombia · 哥伦比亚</div>
+          <h3>哥伦比亚 · 蜜处理</h3>
+          <p class="flavor">焦糖、红苹果、坚果尾韵，平衡又温柔，是日常杯里的安心之选。</p>
+          <div class="row"><span class="price">¥118</span><a href="#all" class="buy">了解更多 →</a></div>
+        </div>
+      </article>
+      <article class="fcard reveal">
+        <div class="img"><img src="assets/bean-mandheling.jpg" alt="曼特宁湿刨法"><span class="roast">Dark Roast · 深烘</span></div>
+        <div class="body">
+          <div class="origin">Indonesia · 印尼</div>
+          <h3>曼特宁 · 湿刨法</h3>
+          <p class="flavor">黑巧、雪松、草本气息，醇厚而深沉，适合慢下来的夜晚。</p>
+          <div class="row"><span class="price">¥138</span><a href="#all" class="buy">了解更多 →</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 全部豆单 -->
+<section class="section-sm" id="all" data-theme="light">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="kicker">All Beans · 全部豆单</div><h2 class="sec-title">找到你的<em>那一支</em></h2></div>
+      <p class="right">从明亮果酸到醇厚深沉，总有一支，恰好是你喜欢的样子。</p>
+    </div>
+    <table class="beans-table reveal">
+      <thead><tr><th>豆款</th><th>产地</th><th>处理法</th><th>风味</th><th>烘焙度</th><th>价格</th></tr></thead>
+      <tbody>
+        <tr><td class="bn">耶加雪菲</td><td>埃塞俄比亚</td><td>水洗</td><td>茉莉 / 佛手柑 / 蜂蜜</td><td><span class="tag">浅烘</span></td><td class="bp">¥128</td></tr>
+        <tr><td class="bn">西达摩</td><td>埃塞俄比亚</td><td>日晒</td><td>草莓 / 蓝莓 / 巧克力</td><td><span class="tag">浅烘</span></td><td class="bp">¥132</td></tr>
+        <tr><td class="bn">哥伦比亚</td><td>哥伦比亚</td><td>蜜处理</td><td>焦糖 / 红苹果 / 坚果</td><td><span class="tag">中烘</span></td><td class="bp">¥118</td></tr>
+        <tr><td class="bn">薇拉</td><td>哥伦比亚</td><td>水洗</td><td>柑橘 / 红糖 / 杏仁</td><td><span class="tag">中烘</span></td><td class="bp">¥122</td></tr>
+        <tr><td class="bn">肯尼亚 AA</td><td>肯尼亚</td><td>水洗</td><td>黑加仑 / 番茄 / 乌梅</td><td><span class="tag">浅烘</span></td><td class="bp">¥146</td></tr>
+        <tr><td class="bn">曼特宁</td><td>印尼</td><td>湿刨法</td><td>黑巧 / 雪松 / 草本</td><td><span class="tag">深烘</span></td><td class="bp">¥138</td></tr>
+        <tr><td class="bn">巴西喜拉多</td><td>巴西</td><td>日晒</td><td>花生 / 牛奶巧克力 / 焦糖</td><td><span class="tag">中深烘</span></td><td class="bp">¥108</td></tr>
+        <tr><td class="bn">危地马拉</td><td>危地马拉</td><td>水洗</td><td>柑橘 / 可可 / 太妃糖</td><td><span class="tag">中烘</span></td><td class="bp">¥126</td></tr>
+      </tbody>
+    </table>
+    <div class="table-mobile reveal">
+      <div class="bm-item"><div class="bm-top"><span class="bn">耶加雪菲</span><span class="bp">¥128</span></div><div class="bm-meta">埃塞俄比亚 · 水洗</div><div class="bm-meta">茉莉 / 佛手柑 / 蜂蜜</div><div class="bm-tags"><span class="tag">浅烘</span></div></div>
+      <div class="bm-item"><div class="bm-top"><span class="bn">西达摩</span><span class="bp">¥132</span></div><div class="bm-meta">埃塞俄比亚 · 日晒</div><div class="bm-meta">草莓 / 蓝莓 / 巧克力</div><div class="bm-tags"><span class="tag">浅烘</span></div></div>
+      <div class="bm-item"><div class="bm-top"><span class="bn">哥伦比亚</span><span class="bp">¥118</span></div><div class="bm-meta">哥伦比亚 · 蜜处理</div><div class="bm-meta">焦糖 / 红苹果 / 坚果</div><div class="bm-tags"><span class="tag">中烘</span></div></div>
+      <div class="bm-item"><div class="bm-top"><span class="bn">薇拉</span><span class="bp">¥122</span></div><div class="bm-meta">哥伦比亚 · 水洗</div><div class="bm-meta">柑橘 / 红糖 / 杏仁</div><div class="bm-tags"><span class="tag">中烘</span></div></div>
+      <div class="bm-item"><div class="bm-top"><span class="bn">肯尼亚 AA</span><span class="bp">¥146</span></div><div class="bm-meta">肯尼亚 · 水洗</div><div class="bm-meta">黑加仑 / 番茄 / 乌梅</div><div class="bm-tags"><span class="tag">浅烘</span></div></div>
+      <div class="bm-item"><div class="bm-top"><span class="bn">曼特宁</span><span class="bp">¥138</span></div><div class="bm-meta">印尼 · 湿刨法</div><div class="bm-meta">黑巧 / 雪松 / 草本</div><div class="bm-tags"><span class="tag">深烘</span></div></div>
+      <div class="bm-item"><div class="bm-top"><span class="bn">巴西喜拉多</span><span class="bp">¥108</span></div><div class="bm-meta">巴西 · 日晒</div><div class="bm-meta">花生 / 牛奶巧克力 / 焦糖</div><div class="bm-tags"><span class="tag">中深烘</span></div></div>
+      <div class="bm-item"><div class="bm-top"><span class="bn">危地马拉</span><span class="bp">¥126</span></div><div class="bm-meta">危地马拉 · 水洗</div><div class="bm-meta">柑橘 / 可可 / 太妃糖</div><div class="bm-tags"><span class="tag">中烘</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band" data-theme="dark">
+  <div class="wrap inner reveal">
+    <div><div class="kicker">Freshly Roasted · 新鲜直达</div><h2>今天下单，<br>48 小时内新鲜烘焙</h2><p>每一批豆子在最佳赏味期内，从我们的烘焙机，送到你的手中。</p></div>
+    <a href="stores.html" class="btn btn-primary">到店选购 / 了解更多 →</a>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer" data-theme="dark">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="fbrand">
+        <div class="fbrand-top"><span class="mark"></span><span class="fbrand-name">慢焙<small>SLOW ROAST</small></span></div>
+        <p>为慢下来的人，做一杯值得等待的好咖啡。从产地到杯中，认真对待每一个细节。</p>
+      </div>
+      <div><h5>探索</h5><ul>
+        <li><a href="index.html" data-page="index.html">首页</a></li>
+        <li><a href="beans.html" data-page="beans.html">精品咖啡豆</a></li>
+        <li><a href="stores.html" data-page="stores.html">门店空间</a></li>
+        <li><a href="academy.html" data-page="academy.html">冲煮学院</a></li>
+      </ul></div>
+      <div><h5>关于</h5><ul>
+        <li><a href="story.html" data-page="story.html">品牌故事</a></li>
+        <li><a href="story.html#belief">烘焙理念</a></li>
+        <li><a href="academy.html">冲煮指南</a></li>
+        <li><a href="stores.html#visit">联系我们</a></li>
+      </ul></div>
+      <div><h5>关注我们</h5><ul><li>微信公众号</li><li>小红书</li><li>微博</li><li>Instagram</li></ul></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 慢焙咖啡 SLOW ROAST. 保留所有权利。</span><span>隐私政策 · 服务条款</span></div>
+</footer>
+
+<script src="js/common.js"></script>
+</body>
+</html>

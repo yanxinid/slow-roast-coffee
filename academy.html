@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>冲煮学院 — 慢焙咖啡 SLOW ROAST</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+<style>
+/* ---- Hero ---- */
+.phero{position:relative;padding-top:calc(var(--nav-h) + clamp(56px,7vw,110px));padding-bottom:clamp(60px,8vw,120px);background:var(--cream);overflow:hidden}
+.phero .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);align-items:center}
+.phero .copy h1{font-family:var(--serif);font-weight:400;font-size:clamp(44px,5vw,84px);line-height:1.1;margin-top:24px}
+.phero .copy h1 em{font-style:italic;color:var(--brown)}
+.phero .copy .lead{margin-top:28px;font-size:clamp(14px,1.1vw,17px);line-height:1.95;color:var(--ink-soft);max-width:520px}
+.phero .copy .actions{margin-top:38px}
+.phero .figure{position:relative;height:clamp(340px,38vw,540px);border-radius:3px;overflow:hidden}
+.phero .figure img{width:100%;height:100%;object-fit:cover}
+.phero .figure::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--cream),transparent 26%)}
+.phero .cap{position:absolute;right:16px;bottom:14px;font-size:10px;letter-spacing:.24em;color:rgba(246,241,234,.85);text-transform:uppercase;z-index:2}
+
+/* ---- 四个动作 ---- */
+.steps{background:var(--paper)}
+.step-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.step-grid::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--line-light)}
+.step{position:relative;padding:26px 22px 0}
+.step .no{font-family:var(--serif);font-size:24px;color:var(--brown)}
+.step::before{content:"";position:absolute;left:22px;top:-5px;width:9px;height:9px;border-radius:50%;background:var(--brown)}
+.step h4{font-family:var(--serif);font-weight:400;font-size:clamp(20px,1.8vw,26px);margin:18px 0 12px}
+.step p{font-size:12px;line-height:1.85;color:var(--muted)}
+.step .tip{margin-top:16px;font-size:11px;color:var(--brown-2);letter-spacing:.04em}
+
+/* ---- 配方 ---- */
+.recipe{background:var(--cream)}
+.recipe .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(34px,5vw,90px);align-items:center}
+.recipe .figure{height:clamp(340px,38vw,520px);border-radius:3px;overflow:hidden}
+.recipe .figure img{width:100%;height:100%;object-fit:cover}
+.recipe .params{display:grid;grid-template-columns:1fr 1fr;gap:26px 30px;margin-top:34px;padding-top:30px;border-top:1px solid var(--line-light)}
+.recipe .params .v{font-family:var(--serif);font-size:clamp(28px,3vw,42px);color:var(--brown)}
+.recipe .params .l{font-size:11px;letter-spacing:.12em;color:var(--muted);margin-top:4px}
+.recipe .steps-inline{margin-top:26px;font-size:13px;line-height:1.95;color:var(--ink-soft)}
+
+/* ---- 课程 ---- */
+.courses{background:var(--paper)}
+.course-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.6vw,38px)}
+.course{background:var(--cream);border:1px solid var(--line-light);border-radius:3px;padding:clamp(26px,2.4vw,38px);display:flex;flex-direction:column;transition:transform .5s var(--ease),box-shadow .5s}
+.course:hover{transform:translateY(-8px);box-shadow:0 24px 48px rgba(43,27,18,.1)}
+.course .tag{align-self:flex-start;background:var(--brown);color:#fff;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border-radius:30px;margin-bottom:22px}
+.course h3{font-family:var(--serif);font-weight:400;font-size:clamp(22px,2vw,28px);margin-bottom:14px}
+.course p{font-size:13px;line-height:1.8;color:var(--muted);flex:1}
+.course .meta{margin-top:22px;padding-top:18px;border-top:1px solid var(--line-light);display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--ink-soft)}
+.course .meta .price{font-family:var(--serif);font-size:22px;color:var(--brown)}
+.course .meta a{color:var(--brown);font-weight:600}
+
+@media(max-width:960px){
+  .phero .grid,.recipe .grid{grid-template-columns:1fr;gap:40px}
+  .phero .figure{height:clamp(280px,52vw,460px)}
+  .phero .figure::after{background:linear-gradient(0deg,var(--cream),transparent 30%)}
+  .step-grid{grid-template-columns:repeat(2,1fr);gap:34px 0}
+  .step-grid::before{display:none}
+  .step{border-left:2px solid var(--line-light);padding:0 0 0 20px}
+  .step::before{display:none}
+  .course-grid{grid-template-columns:1fr;gap:20px}
+}
+@media(max-width:600px){
+  .phero .copy h1{font-size:clamp(42px,12vw,64px)}
+  .step-grid{grid-template-columns:1fr;gap:28px}
+  .recipe .params{grid-template-columns:1fr 1fr}
+  .phero .copy .actions .btn{width:100%}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="index.html" class="brand" aria-label="慢焙咖啡首页"><span class="mark"></span><div>慢焙<small>SLOW ROAST</small></div></a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html" data-page="index.html">首页</a>
+    <a href="beans.html" data-page="beans.html">精品咖啡豆</a>
+    <a href="story.html" data-page="story.html">品牌故事</a>
+    <a href="stores.html" data-page="stores.html">门店空间</a>
+    <a href="academy.html" data-page="academy.html">冲煮学院</a>
+  </div>
+  <a href="beans.html" class="nav-cta">立即选购 →</a>
+  <button class="nav-toggle" aria-label="打开菜单"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<header class="phero" data-theme="light">
+  <div class="wrap grid">
+    <div class="copy reveal">
+      <div class="kicker">Brew Guide · 冲煮学院</div>
+      <h1>把一杯好咖啡，<br><em>带回家</em></h1>
+      <p class="lead">不需要昂贵的设备，只需要耐心与一点方法。跟着我们，从基础四步开始，把咖啡馆里的那杯味道，复原在你自己的杯子里。</p>
+      <div class="actions"><a href="#basics" class="btn btn-primary">从基础开始 <span>→</span></a></div>
+    </div>
+    <div class="figure reveal">
+      <img src="assets/coffee-poster.jpg" alt="手冲咖啡">
+      <span class="cap">BREW · LEARN · ENJOY</span>
+    </div>
+  </div>
+</header>
+
+<!-- 基础四步 -->
+<section class="section steps" id="basics" data-theme="light">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="kicker">The Basics · 基础四步</div><h2 class="sec-title">记住<em>四个动作</em></h2></div>
+    </div>
+    <div class="step-grid">
+      <div class="step reveal"><div class="no">01</div><h4>研磨</h4><p>根据冲煮方式调整粗细。手冲推荐中细研磨，像细砂糖的颗粒感。</p><div class="tip">✳ 现磨现冲，风味最佳</div></div>
+      <div class="step reveal"><div class="no">02</div><h4>称量</h4><p>用电子秤精确计量。粉水比是风味稳定的关键，别凭感觉。</p><div class="tip">✳ 15g 粉 : 225g 水</div></div>
+      <div class="step reveal"><div class="no">03</div><h4>注水</h4><p>先闷蒸 30 秒，再分两段绕圈注水。保持水流细而稳定。</p><div class="tip">✳ 由内向外，画小圈</div></div>
+      <div class="step reveal"><div class="no">04</div><h4>等待</h4><p>让水自然滴滤完毕。总时间控制在 2 分 30 秒左右。</p><div class="tip">✳ 好味道值得等一等</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 手冲配方 -->
+<section class="section recipe" data-theme="light">
+  <div class="wrap grid">
+    <div class="figure reveal"><img src="assets/craft-pour.jpg" alt="手冲配方"></div>
+    <div class="quote reveal">
+      <div class="kicker">Our Recipe · 推荐配方</div>
+      <h2 class="sec-title">手冲，<br>把花香<em>留在杯里</em></h2>
+      <div class="params">
+        <div><div class="v">15g</div><div class="l">咖啡粉</div></div>
+        <div><div class="v">92°C</div><div class="l">水温</div></div>
+        <div><div class="v">1:15</div><div class="l">粉水比</div></div>
+        <div><div class="v">2:30</div><div class="l">总时长</div></div>
+      </div>
+      <p class="steps-inline">00:00 闷蒸注水 30g，静置 30 秒让咖啡排气。<br>00:30 由内向外绕圈注水至 150g。<br>01:30 第二段注水至 225g，等待滴滤完成。<br>02:30 移开滤杯，轻轻摇晃分享壶，即可享用。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 课程 -->
+<section class="section courses" data-theme="light">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="kicker">Classes · 咖啡课程</div><h2 class="sec-title">三门课，<em>从好奇到熟练</em></h2></div>
+      <p class="right">小班教学，咖啡师手把手带你，把爱好变成一项真正的技能。</p>
+    </div>
+    <div class="course-grid">
+      <article class="course reveal">
+        <span class="tag">入门</span>
+        <h3>手冲入门课</h3>
+        <p>从器具到手法，完整走一遍手冲流程。零基础也能在两小时内，冲出一杯稳定好喝的咖啡。</p>
+        <div class="meta"><span>2 小时 · 4 人小班</span><span class="price">¥268</span></div>
+      </article>
+      <article class="course reveal">
+        <span class="tag">进阶</span>
+        <h3>风味辨识课</h3>
+        <p>用杯测的方式，认识酸、甜、苦与香气。建立属于自己的风味词汇，喝得明白，也说得出来。</p>
+        <div class="meta"><span>1.5 小时 · 6 人小班</span><span class="price">¥328</span></div>
+      </article>
+      <article class="course reveal">
+        <span class="tag">体验</span>
+        <h3>周末杯测课</h3>
+        <p>六支不同产地的豆子盲测，和同好一起分享判断。在比较中，找到自己真正喜欢的风味。</p>
+        <div class="meta"><span>2 小时 · 8 人</span><span class="price">¥188</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band" data-theme="dark">
+  <div class="wrap inner reveal">
+    <div><div class="kicker">Keep Learning · 继续探索</div><h2>下一杯，<br>会比这一杯更好</h2><p>带上一支喜欢的豆子，回到自己的厨房，开始你的冲煮练习。</p></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="beans.html" class="btn btn-primary">挑选咖啡豆 →</a>
+      <a href="stores.html#visit" class="btn btn-ghost-dark">预约课程</a>
+    </div>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer" data-theme="dark">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="fbrand">
+        <div class="fbrand-top"><span class="mark"></span><span class="fbrand-name">慢焙<small>SLOW ROAST</small></span></div>
+        <p>为慢下来的人，做一杯值得等待的好咖啡。从产地到杯中，认真对待每一个细节。</p>
+      </div>
+      <div><h5>探索</h5><ul>
+        <li><a href="index.html" data-page="index.html">首页</a></li>
+        <li><a href="beans.html" data-page="beans.html">精品咖啡豆</a></li>
+        <li><a href="stores.html" data-page="stores.html">门店空间</a></li>
+        <li><a href="academy.html" data-page="academy.html">冲煮学院</a></li>
+      </ul></div>
+      <div><h5>关于</h5><ul>
+        <li><a href="story.html" data-page="story.html">品牌故事</a></li>
+        <li><a href="story.html#belief">烘焙理念</a></li>
+        <li><a href="academy.html">冲煮指南</a></li>
+        <li><a href="stores.html#visit">联系我们</a></li>
+      </ul></div>
+      <div><h5>关注我们</h5><ul><li>微信公众号</li><li>小红书</li><li>微博</li><li>Instagram</li></ul></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 慢焙咖啡 SLOW ROAST. 保留所有权利。</span><span>隐私政策 · 服务条款</span></div>
+</footer>
+
+<script src="js/common.js"></script>
+</body>
+</html>

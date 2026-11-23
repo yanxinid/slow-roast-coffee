@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <g fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 开口圆环：顶部留一处缺口，更有呼吸感 -->
+    <circle cx="24" cy="24" r="21" stroke-width="1.5" stroke-dasharray="124 8" transform="rotate(-100 24 24)"/>
+    <!-- 咖啡豆 + 中央 S 形裂缝，整体倾斜 -->
+    <g transform="rotate(-16 24 24)">
+      <path d="M24 10 C32 13 35 18 35 24 C35 30 31 35 24 38 C17 35 13 30 13 24 C13 18 16 13 24 10 Z" stroke-width="2.1"/>
+      <path d="M24 11 C17 16 30 20 24 26 C19 31 24 35 24 37" stroke-width="2.1"/>
+    </g>
+  </g>
+</svg>

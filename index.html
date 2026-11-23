@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>慢焙咖啡 SLOW ROAST — 一杯好咖啡，值得慢慢等</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+<style>
+:root{
+  --cream:#F4EFE8;
+  --paper:#FAF7F2;
+  --ink:#2B1B12;
+  --ink-soft:#5B4636;
+  --night:#160E09;
+  --night-2:#241610;
+  --white:#F6F1EA;
+  --brown:#B4763C;
+  --brown-2:#8A5228;
+  --amber:#D89A57;
+  --serif:'DM Serif Display','Songti SC','STSong',Georgia,serif;
+  --sans:'Manrope','PingFang SC','Microsoft YaHei',system-ui,sans-serif;
+  --scale:1;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--night);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* ===== 一张连续的画布：亮场到暗场是一条不断开的长渐变，版块之间不再各自设色 ===== */
+#page{
+  position:relative;
+  background:linear-gradient(to bottom,
+    #F4EFE8 0%,
+    #F4EFE8 60%,
+    #3A2415 69%,
+    #241610 76%,
+    #160E09 90%,
+    #0d0805 100%);
+}
+/* ============ 导航样式已统一至 css/common.css（含明暗反色、移动端菜单） ============ */
+
+/* ============ HERO ============ */
+.hero{position:relative;height:100vh;min-height:720px;overflow:hidden;background:var(--night);color:var(--white)}
+.hero-video{position:absolute;inset:0;width:100%;height:120%;object-fit:cover;will-change:transform;opacity:.72}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,7,4,.86) 0%,rgba(12,7,4,.55) 38%,rgba(12,7,4,.12) 70%,rgba(12,7,4,.35) 100%),linear-gradient(0deg,rgba(12,7,4,.82) 0%,rgba(12,7,4,.25) 26%,transparent 48%)}
+/* Hero 底无缝溶入连续画布的米白起点 */
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:180px;pointer-events:none;z-index:1;background:linear-gradient(to top,#160E09 0%,rgba(22,14,9,.92) 16%,rgba(22,14,9,0) 100%)}
+.hero-inner{position:relative;z-index:2;height:100%;max-width:1920px;margin:0 auto;padding:0 clamp(24px,8vw,150px);display:flex;flex-direction:column;justify-content:center}
+.eyebrow{font-size:12px;letter-spacing:.34em;text-transform:uppercase;font-weight:600;color:var(--amber);margin-bottom:30px;display:flex;align-items:center;gap:14px;opacity:0;animation:fadeUp .9s .2s forwards}
+.eyebrow::before{content:"";width:46px;height:1px;background:var(--amber)}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(58px,7.4vw,132px);line-height:1.04;letter-spacing:-.01em;opacity:0;animation:fadeUp 1s .35s forwards}
+.hero h1 em{font-style:italic;color:var(--amber)}
+.hero-sub{max-width:560px;margin-top:34px;font-size:clamp(15px,1.15vw,18px);line-height:1.9;color:rgba(246,241,234,.78);font-weight:400;opacity:0;animation:fadeUp 1s .55s forwards}
+.hero-actions{display:flex;gap:16px;align-items:center;margin-top:44px;opacity:0;animation:fadeUp 1s .7s forwards}
+.btn-primary{background:var(--brown);color:#fff;border:none;border-radius:40px;padding:16px 34px;font-size:14px;font-weight:600;letter-spacing:.03em;cursor:pointer;display:inline-flex;align-items:center;gap:12px;transition:transform .3s,background .3s}
+.btn-primary:hover{transform:translateY(-3px);background:#c98448}
+.btn-ghost{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,.4);border-radius:40px;padding:16px 30px;font-size:14px;font-weight:600;cursor:pointer;transition:background .3s}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.badge{position:absolute;right:clamp(40px,9vw,170px);top:50%;transform:translateY(-50%);width:190px;height:190px;z-index:3;opacity:0;animation:fadeUp 1.2s .9s forwards}
+.badge svg{width:100%;height:100%;display:block;animation:spin 26s linear infinite}
+.badge .badge-core{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--serif);font-size:30px;color:var(--amber)}
+.scroll-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;opacity:.7}
+.scroll-hint .line{width:1px;height:52px;background:linear-gradient(var(--white),transparent);animation:scrollLine 2s ease-in-out infinite}
+.hero-num{position:absolute;right:clamp(24px,5vw,90px);bottom:60px;z-index:2;font-family:var(--serif);font-size:13px;letter-spacing:.1em;opacity:.55}
+
+/* ============ BANNER 底部：横向错落卡片介绍（参考 Lumen 播客落地页）============ */
+.showcase{position:relative;z-index:3;padding:70px clamp(24px,6vw,120px) 130px;background:linear-gradient(to bottom,#160E09 0%,#160E09 52%,#3A2415 76%,var(--cream) 100%);color:var(--white);overflow:hidden}
+.showcase-head{max-width:1560px;margin:0 auto 46px;display:flex;justify-content:space-between;align-items:end;gap:30px}
+.showcase-head .kicker{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--amber);font-weight:600}
+.showcase-head h2{font-family:var(--serif);font-size:clamp(30px,3.2vw,52px);font-weight:400;margin-top:12px;line-height:1.15}
+.showcase-head h2 em{font-style:italic;color:var(--amber)}
+.showcase-head p{max-width:380px;font-size:13px;line-height:1.85;color:rgba(246,241,234,.58)}
+.showcase-track{max-width:1560px;margin:0 auto;display:flex;gap:clamp(16px,2.1vw,32px);align-items:flex-start;perspective:1400px}
+.showcase-card{position:relative;flex:1 1 0;min-width:0;aspect-ratio:3/4;border-radius:16px;overflow:hidden;transform-style:preserve-3d;transform:translateY(var(--ty,0px));box-shadow:0 26px 64px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.08);opacity:0;animation:cardIn .95s cubic-bezier(.16,.84,.3,1) forwards;transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s}
+.showcase-card:nth-child(1){--ty:30px;animation-delay:.12s}
+.showcase-card:nth-child(2){--ty:0px;animation-delay:.26s}
+.showcase-card:nth-child(3){--ty:38px;animation-delay:.4s}
+.showcase-card:nth-child(4){--ty:12px;animation-delay:.54s}
+.showcase-card:hover{transform:translateY(calc(var(--ty,0px) - 16px)) scale(1.035) rotateX(2deg);box-shadow:0 38px 88px rgba(0,0,0,.68),inset 0 0 0 1px rgba(216,154,87,.4);z-index:5}
+.showcase-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.72) brightness(.7);transition:transform .75s,filter .5s}
+.showcase-card:hover img{transform:scale(1.09);filter:saturate(.95) brightness(.86)}
+.showcase-card::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(12,7,4,.18) 0%,rgba(12,7,4,.05) 38%,rgba(12,7,4,.92) 100%)}
+.sc-no{position:absolute;top:20px;left:22px;z-index:2;font-family:var(--serif);font-size:14px;letter-spacing:.12em;color:var(--amber)}
+.sc-wave{position:absolute;top:22px;right:20px;z-index:2;display:flex;gap:3px;align-items:center;height:20px;opacity:.9}
+.sc-wave i{display:block;width:2px;background:var(--amber);border-radius:2px}
+.sc-wave i:nth-child(1){height:6px}.sc-wave i:nth-child(2){height:13px}.sc-wave i:nth-child(3){height:9px}.sc-wave i:nth-child(4){height:18px}.sc-wave i:nth-child(5){height:11px}.sc-wave i:nth-child(6){height:16px}.sc-wave i:nth-child(7){height:7px}.sc-wave i:nth-child(8){height:14px}.sc-wave i:nth-child(9){height:5px}
+.sc-body{position:absolute;left:22px;right:22px;bottom:26px;z-index:2}
+.sc-body .en{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--amber);font-weight:600;margin-bottom:12px}
+.sc-body h3{font-family:var(--serif);font-size:clamp(23px,2.1vw,34px);font-weight:400;line-height:1.12;letter-spacing:-.01em;margin-bottom:11px}
+.sc-body p{font-size:12px;line-height:1.7;color:rgba(246,241,234,.74)}
+@keyframes cardIn{from{opacity:0;transform:translate(70px,calc(var(--ty,0px) + 28px)) rotate(4deg)}to{opacity:1;transform:translate(0,var(--ty,0px)) rotate(0)}}
+@media(max-width:900px){
+  .showcase{padding:44px 24px 64px}
+  .showcase-head{flex-direction:column;align-items:flex-start;gap:14px;margin-bottom:24px}
+  .showcase-head h2{font-size:clamp(28px,7vw,40px);margin-top:10px}
+  .showcase-head p{max-width:100%;font-size:12px}
+  .showcase-track{overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding:6px 4px 18px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .showcase-track::-webkit-scrollbar{display:none}
+  .showcase-card{flex:0 0 66vw;max-width:290px;scroll-snap-align:center}
+}
+
+/* ===== 所有版块都浮在同一张画布上，透明背景，让连续渐变与脊线透出来 ===== */
+.manifesto,.stats,.story,.products,.storyband,.footer{background:transparent;position:relative;z-index:1}
+
+/* ============ 宣言（亮场）============ */
+.manifesto{padding:150px 0 130px;overflow:hidden}
+.manifesto .lead{max-width:820px;margin:0 auto;text-align:center;padding:0 24px}
+.manifesto .kicker{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--brown-2);font-weight:600;margin-bottom:26px}
+.manifesto .statement{font-family:var(--serif);font-size:clamp(28px,3.4vw,54px);line-height:1.35;font-weight:400}
+.manifesto .statement em{font-style:italic;color:var(--brown)}
+.marquee{margin-top:78px;white-space:nowrap;overflow:hidden;border-top:1px solid rgba(43,27,18,.14);border-bottom:1px solid rgba(43,27,18,.14);padding:22px 0}
+.marquee-track{display:inline-flex;gap:44px;animation:marquee 26s linear infinite;font-family:var(--serif);font-size:clamp(30px,4vw,64px);color:var(--ink)}
+.marquee-track span{opacity:.9}
+.marquee-track i{font-style:normal;color:var(--brown);font-size:.6em;transform:translateY(-.2em)}
+
+/* ============ 数据段（去盒子：裸数字刻在画布上，用一条基线串联）============ */
+.stats{padding:40px clamp(24px,6vw,120px) 150px;overflow:hidden}
+.stats-label{max-width:1560px;margin:0 auto 70px;display:flex;justify-content:space-between;align-items:end}
+.stats-label h2{font-family:var(--serif);font-size:clamp(30px,3vw,48px);font-weight:400}
+.stats-label span{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--brown-2)}
+.stats-grid{max-width:1560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);position:relative}
+/* 一条水平基线贯穿四个节点，与叙事曲线呼应：同一根"线索"的语言 */
+.stats-grid::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,var(--brown) 8%,var(--brown) 92%,transparent);opacity:.5}
+.stat{position:relative;padding:26px 26px 30px;will-change:transform;border-left:1px solid rgba(43,27,18,.1)}
+.stat:first-child{border-left:none}
+.stat .num{font-family:var(--serif);font-size:clamp(56px,5.4vw,96px);line-height:1;color:var(--brown-2)}
+.stat .num sup{font-size:.42em;color:var(--brown)}
+.stat .label{margin-top:18px;font-size:13px;letter-spacing:.1em;color:var(--ink);font-weight:600}
+.stat .desc{margin-top:10px;font-size:12px;line-height:1.7;color:#8a7562;max-width:230px}
+/* 挂在线上的小节点 */
+.stat::before{content:"";position:absolute;left:-5px;top:0;width:9px;height:9px;border-radius:50%;background:var(--brown);box-shadow:0 0 0 5px var(--cream)}
+.stat:first-child::before{left:0}
+
+/* ============ 曲线叙事（粗曲线 = 脊线在故事段展开）============ */
+.story{height:calc(3600px * var(--scale));overflow:hidden}
+.story-canvas{position:absolute;top:0;left:50%;width:1920px;height:3600px;transform:translateX(-50%) scale(var(--scale));transform-origin:top center}
+.story-svg{position:absolute;inset:0;width:1920px;height:3600px;pointer-events:none}
+#curve{fill:none;stroke:var(--brown);stroke-width:16;stroke-linecap:round}
+.story-track{fill:none;stroke:rgba(43,27,18,.08);stroke-width:16;stroke-linecap:round}
+.flow-dot{fill:var(--amber);filter:drop-shadow(0 0 8px rgba(216,154,87,.9))}
+.node{position:absolute;transform:translate(-50%,-50%);z-index:4;display:flex;align-items:center;gap:18px;opacity:.4;transition:opacity .6s,transform .6s}
+.node.active{opacity:1}
+.node-dot{width:76px;height:76px;border-radius:50%;background:var(--night);color:var(--white);display:grid;place-items:center;font-family:var(--serif);font-size:26px;box-shadow:0 0 0 8px var(--cream),0 14px 34px rgba(43,27,18,.28);transition:transform .5s,background .5s}
+.node.active .node-dot{transform:scale(1.12);background:var(--brown)}
+.node-cap{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;white-space:nowrap}
+.chapter{position:absolute;z-index:5;width:540px;opacity:0;transform:translateY(40px);transition:opacity .8s,transform .8s}
+.chapter.show{opacity:1;transform:translateY(0)}
+.chapter .idx{font-family:var(--serif);font-size:15px;color:var(--brown);letter-spacing:.1em}
+.chapter h3{font-family:var(--serif);font-size:clamp(40px,3.4vw,62px);font-weight:400;line-height:1.1;margin:8px 0 6px}
+.chapter .en{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--brown-2);font-weight:600;margin-bottom:20px}
+.chapter p{font-size:15px;line-height:1.95;color:var(--ink-soft);max-width:470px}
+.chapter .chip{display:inline-flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.chapter .chip span{font-size:11px;letter-spacing:.08em;padding:7px 14px;border:1px solid rgba(43,27,18,.18);border-radius:30px;color:var(--ink-soft)}
+.chapter figure{margin-top:24px;width:100%;height:190px;border-radius:4px;overflow:hidden;box-shadow:0 16px 40px rgba(43,27,18,.14)}
+.chapter figure img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s}
+.chapter.show figure img{transform:scale(1.03)}
+.story-heading{position:absolute;top:70px;left:0;width:100%;text-align:center;z-index:5}
+.story-heading .kicker{font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:var(--brown-2);font-weight:600}
+.story-heading h2{font-family:var(--serif);font-size:clamp(40px,4.4vw,80px);font-weight:400;margin-top:16px}
+.story-heading h2 em{font-style:italic;color:var(--brown)}
+
+/* ============ 产品（去盒子：图片出血 + 标题叠压 + 错落上探咬合上一版块）============ */
+.products{padding:70px clamp(24px,6vw,120px) 190px;color:var(--white);margin-top:-60px}
+.products-head{max-width:1560px;margin:0 auto 90px;display:flex;justify-content:space-between;align-items:end}
+.products-head h2{font-family:var(--serif);font-size:clamp(38px,4vw,68px);font-weight:400;line-height:1.1}
+.products-head h2 em{font-style:italic;color:var(--amber)}
+.products-head p{max-width:380px;font-size:14px;line-height:1.8;color:rgba(246,241,234,.6)}
+.cards{max-width:1560px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,46px);position:relative}
+.product{will-change:transform;transition:transform .5s;position:relative}
+.product:nth-child(1){margin-top:0}
+.product:nth-child(2){margin-top:86px}
+.product:nth-child(3){margin-top:30px}
+.product .img{height:clamp(300px,26vw,440px);overflow:hidden;position:relative;border-radius:2px}
+.product .img img{width:100%;height:100%;object-fit:cover;transition:transform .8s;filter:saturate(.9) contrast(1.04)}
+.product:nth-child(2) .img img{filter:saturate(.78) brightness(.9) sepia(.12)}
+.product:nth-child(3) .img img{filter:saturate(.7) brightness(.82) sepia(.2)}
+.product:hover .img img{transform:scale(1.06)}
+.product .img::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(22,14,9,.55),transparent 55%)}
+.product .img .tag{position:absolute;top:16px;left:16px;z-index:2;background:rgba(22,14,9,.66);backdrop-filter:blur(6px);font-size:10px;letter-spacing:.18em;text-transform:uppercase;padding:8px 14px;border-radius:30px;color:var(--amber)}
+.product .body{padding:20px 2px 0}
+.product .body .origin{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);font-weight:600}
+.product .body h4{font-family:var(--serif);font-size:clamp(24px,2vw,32px);font-weight:400;margin:8px 0 10px;color:var(--white)}
+.product .body .flavor{font-size:13px;line-height:1.7;color:rgba(246,241,234,.6)}
+.product .body .row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:16px;border-top:1px solid rgba(246,241,234,.14)}
+.product .body .price{font-family:var(--serif);font-size:24px;color:var(--white)}
+.product .body .buy{font-size:12px;font-weight:600;color:var(--amber);cursor:pointer}
+
+/* ============ 品牌故事（暗场，图片出血咬合产品区）============ */
+.storyband{padding:130px clamp(24px,6vw,120px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,110px);align-items:center;max-width:1920px;margin:0 auto}
+.storyband .figure{height:clamp(420px,38vw,600px);overflow:hidden;position:relative;border-radius:2px}
+.storyband .figure::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--night-2),transparent 30%)}
+.storyband .figure img{width:100%;height:115%;object-fit:cover;will-change:transform}
+.storyband .quote .kicker{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--amber);font-weight:600;margin-bottom:26px}
+.storyband .quote h2{font-family:var(--serif);font-size:clamp(40px,4vw,72px);font-weight:400;line-height:1.16;color:var(--white)}
+.storyband .quote h2 em{font-style:italic;color:var(--amber)}
+.storyband .quote p{margin-top:28px;font-size:15px;line-height:1.95;color:rgba(246,241,234,.66);max-width:520px}
+
+/* ============ 页脚 ============ */
+.footer{padding:90px clamp(24px,6vw,120px) 40px;color:rgba(246,241,234,.7)}
+.footer-grid{max-width:1560px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:50px;padding-bottom:60px}
+.footer h5{color:var(--white);font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:20px}
+.footer ul{list-style:none}
+.footer li{margin-bottom:12px;font-size:13px;cursor:pointer;transition:color .25s}
+.footer li:hover{color:var(--amber)}
+.footer-bottom{max-width:1560px;margin:0 auto;padding-top:28px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;font-size:11px;letter-spacing:.05em;color:rgba(246,241,234,.4)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}50.1%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+@media(max-width:900px){
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:36px 0}
+  .stat{border-left:none;border-top:1px solid rgba(43,27,18,.14);padding:22px 20px 8px}
+  .stat::before{display:none}
+  .cards{grid-template-columns:1fr;gap:52px}
+  .product:nth-child(n){margin-top:0}
+  .storyband{grid-template-columns:1fr;gap:34px;padding:72px clamp(24px,6vw,120px)}
+  .storyband .figure{height:340px}
+  .products-head{flex-direction:column;align-items:flex-start;gap:16px;margin-bottom:48px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .badge{width:130px;height:130px;right:24px}
+  /* 收紧桌面级巨型留白，避免移动端内容分散 */
+  .manifesto{padding:84px 0 66px}
+  .marquee{margin-top:44px}
+  .stats{padding:30px clamp(24px,6vw,120px) 78px}
+  .stats-label{margin-bottom:40px}
+  .products{padding:56px clamp(24px,6vw,120px) 92px}
+  /* 移动端/平板：产品区落在浅色画布段，白字改深字保证可读 */
+  .products-head h2{color:var(--ink)}
+  .products-head h2 em{color:var(--brown-2)}
+  .products-head p{color:var(--ink-soft)}
+  .product .body .origin{color:var(--brown-2)}
+  .product .body h4{color:var(--ink)}
+  .product .body .flavor{color:var(--ink-soft)}
+  .product .body .row{border-top-color:rgba(43,27,18,.16)}
+  .product .body .price{color:var(--ink)}
+  .product .body .buy{color:var(--brown-2)}
+  .footer{padding-top:64px}
+}
+@media(max-width:560px){
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:28px 0}
+  .stat{padding:18px 14px 6px}
+  .stat .num{font-size:clamp(46px,13vw,68px)}
+  .stat .label{margin-top:12px;font-size:12px}
+  .stat .desc{margin-top:7px;font-size:11px;line-height:1.6}
+  .stats-label{flex-direction:column;align-items:flex-start;gap:10px;margin-bottom:30px}
+  .stats-label h2{font-size:clamp(26px,7.4vw,34px)}
+  .cards{gap:44px}
+  .product .img{height:clamp(250px,72vw,340px)}
+  .product .body{padding-top:16px}
+  .footer-grid{grid-template-columns:1fr}
+  .hero{min-height:0;height:auto;padding:calc(var(--nav-h) + 48px) 0 70px}
+  .hero-inner{min-height:0}
+  .hero h1{font-size:clamp(40px,11vw,58px)}
+  .hero-sub{margin-top:20px;line-height:1.8}
+  .eyebrow{margin-bottom:18px}
+  .hero-actions{margin-top:28px;flex-direction:column;align-items:stretch}
+  .hero-actions .btn{width:100%;justify-content:center}
+  .badge,.scroll-hint,.hero-num{display:none}
+  .manifesto{padding:64px 0 52px}
+  .manifesto .statement{font-size:clamp(26px,7vw,34px);line-height:1.5}
+  .storyband{padding:60px clamp(24px,6vw,120px);gap:28px}
+  .storyband .figure{height:280px}
+  .storyband .quote h2{font-size:clamp(34px,9vw,46px)}
+  .storyband .quote p{margin-top:20px;line-height:1.85}
+  .footer{padding-top:56px}
+}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav" data-custom-theme="1">
+  <a href="index.html" class="brand" aria-label="慢焙咖啡首页"><span class="mark"></span><div>慢焙<small>SLOW ROAST</small></div></a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html" data-page="index.html">首页</a>
+    <a href="beans.html" data-page="beans.html">精品咖啡豆</a>
+    <a href="story.html" data-page="story.html">品牌故事</a>
+    <a href="stores.html" data-page="stores.html">门店空间</a>
+    <a href="academy.html" data-page="academy.html">冲煮学院</a>
+  </div>
+  <a href="beans.html" class="nav-cta">立即选购 →</a>
+  <button class="nav-toggle" aria-label="打开菜单"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="hero">
+  <video class="hero-video" id="heroVideo" autoplay muted loop playsinline poster="assets/coffee-poster.jpg">
+    <source src="assets/coffee-hero.mp4" type="video/mp4">
+  </video>
+  <div class="hero-shade"></div>
+  <div class="hero-inner">
+    <div class="eyebrow" data-parallax="0.18">为慢下来的人，做一杯好咖啡</div>
+    <h1 data-parallax="0.28">一杯好咖啡，<br><em>值得慢慢等</em></h1>
+    <p class="hero-sub" data-parallax="0.22">从埃塞俄比亚的高原庄园，到你的手中。我们只做一件事——把每一颗咖啡豆原本的风味，完整地带到你的杯里。</p>
+    <div class="hero-actions" data-parallax="0.16">
+      <a href="beans.html" class="btn btn-primary">探索咖啡豆 <span>→</span></a>
+      <a href="story.html" class="btn btn-ghost-dark">了解我们的故事</a>
+    </div>
+  </div>
+  <div class="badge" data-parallax="0.34">
+    <svg viewBox="0 0 190 190" width="100%" height="100%">
+      <defs><path id="circlePath" d="M95,95 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0"/></defs>
+      <text fill="#D89A57" font-size="12.5" letter-spacing="3.1" font-family="Manrope,sans-serif" font-weight="600">
+        <textPath href="#circlePath">SLOW ROAST · SPECIALTY COFFEE · SINCE 2016 · MADE WITH CARE ·
+        </textPath>
+      </text>
+    </svg>
+    <div class="badge-core">慢</div>
+  </div>
+  <div class="scroll-hint"><span>向下滚动</span><span class="line"></span></div>
+  <div class="hero-num">01 / 04</div>
+</header>
+
+<!-- BANNER 底部：横向错落卡片介绍 -->
+<section class="showcase" aria-label="慢焙咖啡体验介绍">
+  <div class="showcase-head">
+    <div>
+      <div class="kicker">The Slow Roast Way · 慢焙之道</div>
+      <h2>一杯好咖啡，<em>四段旅程</em></h2>
+    </div>
+    <p>从云端庄园到你的杯中，每一步都值得慢慢来。向下探索，或直接跳到你感兴趣的一段。</p>
+  </div>
+  <div class="showcase-track">
+    <a class="showcase-card" href="#story-chapters">
+      <img src="assets/farm-sourcing.png" alt="高海拔咖啡庄园">
+      <span class="sc-no">01 / 04</span>
+      <span class="sc-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+      <div class="sc-body"><div class="en">Sourcing · 寻豆</div><h3>走进云端庄园</h3><p>海拔两千米，只在最佳产季采摘，让每一颗果实饱满而干净。</p></div>
+    </a>
+    <a class="showcase-card" href="#story-chapters">
+      <img src="assets/bean-mandheling.jpg" alt="小批量烘焙">
+      <span class="sc-no">02 / 04</span>
+      <span class="sc-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+      <div class="sc-body"><div class="en">Roasting · 烘焙</div><h3>火候里的分寸</h3><p>小批量、分曲线精准烘焙，恰到好处地唤醒豆子本身的甜感。</p></div>
+    </a>
+    <a class="showcase-card" href="academy.html">
+      <img src="assets/craft-pour.jpg" alt="手冲咖啡">
+      <span class="sc-no">03 / 04</span>
+      <span class="sc-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+      <div class="sc-body"><div class="en">Brewing · 手冲</div><h3>水流写的诗</h3><p>注水的节奏、闷蒸的时间，把耐心一点点变成杯中的风味。</p></div>
+    </a>
+    <a class="showcase-card" href="stores.html">
+      <img src="assets/sharing-cups.png" alt="分享咖啡">
+      <span class="sc-no">04 / 04</span>
+      <span class="sc-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+      <div class="sc-body"><div class="en">Sharing · 分享</div><h3>把风味交给你</h3><p>从烘焙机到你的杯子，好咖啡值得被认真分享。</p></div>
+    </a>
+  </div>
+</section>
+
+<!-- 一张连续画布：所有版块共享背景，靠渐变与元素咬合自然衔接 -->
+<main id="page">
+  <!-- 宣言 -->
+  <section class="manifesto" data-theme="light">
+    <div class="lead">
+      <div class="kicker">Our Philosophy · 我们的信念</div>
+      <div class="statement">好咖啡从不着急。它在<em>时间里生长</em>，在<em>火候里成熟</em>，<br>在耐心冲泡里，把一整个产季的风味慢慢舒展。</div>
+    </div>
+    <div class="marquee">
+      <div class="marquee-track" id="marqueeTrack"></div>
+    </div>
+  </section>
+
+  <!-- 数据段 -->
+  <section class="stats" id="about" data-theme="light">
+    <div class="stats-label">
+      <h2>十年，只做好这一件事</h2>
+      <span>Numbers tell our story</span>
+    </div>
+    <div class="stats-grid">
+      <div class="stat"><div class="num">10<sup>年</sup></div><div class="label">精品烘焙经验</div><div class="desc">从第一台烘焙机开始，我们从未停止对风味的追问。</div></div>
+      <div class="stat"><div class="num">32<sup>个</sup></div><div class="label">合作庄园</div><div class="desc">深入产地，与种植者建立长期而公平的伙伴关系。</div></div>
+      <div class="stat"><div class="num">48<sup>小时</sup></div><div class="label">烘焙后新鲜直达</div><div class="desc">每一批豆子在最佳赏味期内，送到你的手中。</div></div>
+      <div class="stat"><div class="num">20K<sup>+</sup></div><div class="label">忠实咖啡爱好者</div><div class="desc">和两万个你一起，把喝咖啡这件事，认真对待。</div></div>
+    </div>
+  </section>
+
+  <!-- 曲线叙事 -->
+  <section class="story" id="story-chapters" data-theme="light">
+    <div class="story-canvas">
+      <div class="story-heading">
+        <div class="kicker">The Journey · 一颗豆子的旅程</div>
+        <h2>从产地，<em>到杯中</em></h2>
+      </div>
+      <svg class="story-svg" viewBox="0 0 1920 3600" preserveAspectRatio="none">
+        <path class="story-track" d="M960 0 C900 200,480 320,480 620 C480 960,1440 920,1440 1240 C1440 1560,440 1560,440 1900 C440 2260,1480 2220,1480 2560 C1480 2900,700 2940,760 3300 C790 3450,900 3520,960 3600"/>
+        <path id="curve" d="M960 0 C900 200,480 320,480 620 C480 960,1440 920,1440 1240 C1440 1560,440 1560,440 1900 C440 2260,1480 2220,1480 2560 C1480 2900,700 2940,760 3300 C790 3450,900 3520,960 3600"/>
+        <circle class="flow-dot" r="7"><animateMotion dur="9s" repeatCount="indefinite"><mpath href="#curve"/></animateMotion></circle>
+        <circle class="flow-dot" r="4" opacity=".7"><animateMotion dur="9s" begin="3s" repeatCount="indefinite"><mpath href="#curve"/></animateMotion></circle>
+        <circle class="flow-dot" r="5" opacity=".85"><animateMotion dur="9s" begin="6s" repeatCount="indefinite"><mpath href="#curve"/></animateMotion></circle>
+      </svg>
+      <div class="node" id="node1" style="left:480px;top:620px"><div class="node-dot">01</div><div class="node-cap"> SOURCING</div></div>
+      <div class="node" id="node2" style="left:1440px;top:1240px"><div class="node-dot">02</div><div class="node-cap">ROASTING </div></div>
+      <div class="node" id="node3" style="left:440px;top:1900px"><div class="node-dot">03</div><div class="node-cap"> BREWING</div></div>
+      <div class="node" id="node4" style="left:1480px;top:2560px"><div class="node-dot">04</div><div class="node-cap">SHARING </div></div>
+      <article class="chapter" id="ch1" style="left:720px;top:500px">
+        <div class="idx">01 — 寻豆</div><h3>走进云端庄园</h3>
+        <div class="en">Sourcing · 只在最佳产季采摘</div>
+        <p>我们翻山越岭，去到海拔两千米的咖啡庄园。只为找到那些被阳光与云雾慢慢养成的果实，每一颗都饱满而干净。</p>
+        <figure><img src="assets/farm-sourcing.png" alt="高海拔咖啡庄园与咖啡果实"></figure>
+        <div class="chip"><span>埃塞俄比亚</span><span>哥伦比亚</span><span>印尼</span></div>
+      </article>
+      <article class="chapter" id="ch2" style="left:300px;top:1120px">
+        <div class="idx">02 — 烘焙</div><h3>火候里的分寸</h3>
+        <div class="en">Roasting · 小批量精准烘焙</div>
+        <p>烘焙是一场和时间的对话。我们用小批量、分曲线的烘焙方式，把每一支豆子本身的甜感与香气，恰到好处地唤醒。</p>
+        <figure><img src="assets/scene-0.8.png" alt="烘焙场景"></figure>
+      </article>
+      <article class="chapter" id="ch3" style="left:700px;top:1780px">
+        <div class="idx">03 — 手冲</div><h3>水流写的诗</h3>
+        <div class="en">Brewing · 慢下来，认真冲一杯</div>
+        <p>注水的节奏、水流的粗细、闷蒸的时间——每个细节都决定最后的味道。手冲，是把耐心变成风味的过程。</p>
+        <figure><img src="assets/craft-pour.jpg" alt="手冲咖啡场景"></figure>
+      </article>
+      <article class="chapter" id="ch4" style="left:340px;top:2440px">
+        <div class="idx">04 — 分享</div><h3>把风味交给你</h3>
+        <div class="en">Sharing · 好咖啡值得被分享</div>
+        <p>从我们的烘焙机，到你的杯子里。当第一口香气在舌尖散开，这段旅程才算真正完成。愿每一杯，都值得你慢慢等。</p>
+        <figure><img src="assets/sharing-cups.png" alt="举杯分享咖啡"></figure>
+        <div class="chip"><span>48h 新鲜直达</span><span>风味档案卡</span><span>冲煮指南</span></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 产品：上探咬合叙事区 -->
+  <section class="products" id="products" data-theme="dark">
+    <div class="products-head">
+      <h2>本周<em>精选</em><br>咖啡豆</h2>
+      <p>每一支豆子都有自己的故事。我们只挑选当季最新鲜、风味最清晰的批次，限量呈现。</p>
+    </div>
+    <div class="cards">
+      <div class="product" data-float="1">
+        <div class="img"><img src="assets/bean-yegacheffe.jpg" alt="耶加雪菲"><span class="tag">Light Roast</span></div>
+        <div class="body"><div class="origin">Ethiopia · 埃塞俄比亚</div><h4>耶加雪菲 · 水洗</h4><div class="flavor">茉莉花香、佛手柑、蜂蜜甜感，明亮而干净。</div><div class="row"><span class="price">¥128</span><span class="buy">加入购物车 →</span></div></div>
+      </div>
+      <div class="product" data-float="2">
+        <div class="img"><img src="assets/bean-colombia.jpg" alt="哥伦比亚"><span class="tag">Medium Roast</span></div>
+        <div class="body"><div class="origin">Colombia · 哥伦比亚</div><h4>哥伦比亚 · 蜜处理</h4><div class="flavor">焦糖、红苹果、坚果尾韵，平衡又温柔。</div><div class="row"><span class="price">¥118</span><span class="buy">加入购物车 →</span></div></div>
+      </div>
+      <div class="product" data-float="3">
+        <div class="img"><img src="assets/bean-mandheling.jpg" alt="曼特宁"><span class="tag">Dark Roast</span></div>
+        <div class="body"><div class="origin">Indonesia · 印尼</div><h4>曼特宁 · 湿刨法</h4><div class="flavor">黑巧、雪松、草本气息，醇厚而深沉。</div><div class="row"><span class="price">¥138</span><span class="buy">加入购物车 →</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 品牌故事 -->
+  <section class="storyband" id="story" data-theme="dark">
+    <div class="figure"><img id="bandImg" src="assets/story-latte.jpg" alt="咖啡师拉花"></div>
+    <div class="quote">
+      <div class="kicker">Our Story · 关于慢焙</div>
+      <h2>慢下来，<br>才能尝到<em>真正的味道</em></h2>
+      <p>我们相信，好咖啡不是快节奏的产物。从挑选庄园、控制烘焙，到耐心冲煮，每一步都需要时间。正因为慢，风味才有机会完整地展开。愿你也能在每一杯咖啡里，找到属于自己的那段慢时光。</p>
+      <a href="story.html" class="btn btn-primary" style="margin-top:34px">了解更多 <span>→</span></a>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="footer" data-theme="dark">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="fbrand">
+        <div class="fbrand-top"><span class="mark"></span><span class="fbrand-name">慢焙<small>SLOW ROAST</small></span></div>
+        <p>为慢下来的人，做一杯值得等待的好咖啡。从产地到杯中，认真对待每一个细节。</p>
+      </div>
+        <div><h5>探索</h5><ul>
+          <li><a href="index.html" data-page="index.html">首页</a></li>
+          <li><a href="beans.html" data-page="beans.html">精品咖啡豆</a></li>
+          <li><a href="stores.html" data-page="stores.html">门店空间</a></li>
+          <li><a href="academy.html" data-page="academy.html">冲煮学院</a></li>
+        </ul></div>
+        <div><h5>关于</h5><ul>
+          <li><a href="story.html" data-page="story.html">品牌故事</a></li>
+          <li><a href="story.html#belief" >烘焙理念</a></li>
+          <li><a href="academy.html" >冲煮指南</a></li>
+          <li><a href="stores.html#visit" >联系我们</a></li>
+        </ul></div>
+        <div><h5>关注我们</h5><ul><li>微信公众号</li><li>小红书</li><li>微博</li><li>Instagram</li></ul></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 慢焙咖啡 SLOW ROAST. 保留所有权利。</span><span>隐私政策 · 服务条款</span></div>
+  </footer>
+</main>
+
+<script>
+(function(){
+  function applyScale(){
+    var s = Math.min(1, window.innerWidth/1920);
+    document.documentElement.style.setProperty('--scale', s);
+  }
+  applyScale(); window.addEventListener('resize', applyScale);
+
+  var words = ['SLOW ROAST','慢慢等','SPECIALTY COFFEE','认真对待每一杯','FROM FARM TO CUP','风味在路上','MADE WITH CARE'];
+  var track = document.getElementById('marqueeTrack');
+  var html = '';
+  for(var r=0;r<2;r++){ words.forEach(function(w){ html += '<span>'+w+'</span><i>✳</i>'; }); }
+  track.innerHTML = html;
+
+  var nav = document.getElementById('nav');
+  var heroVideo = document.getElementById('heroVideo');
+  var parallaxEls = document.querySelectorAll('[data-parallax]');
+  var curve = document.getElementById('curve');
+  var story = document.querySelector('.story');
+  var hero = document.querySelector('.hero');
+  var page = document.getElementById('page');
+  var curveLen = curve.getTotalLength();
+  curve.style.strokeDasharray = curveLen;
+  curve.style.strokeDashoffset = curveLen;
+
+  function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+
+  var ticking = false;
+  function onScroll(){
+    var y = window.scrollY;
+    nav.classList.toggle('scrolled', y > 24);
+
+    // 导航按背景渐变的实际进度反色（与视觉严格同步，避免过渡区错位）
+    var navProbe = 60;
+    var pRect = page.getBoundingClientRect();
+    var pageTop = pRect.top + y;              // page 文档绝对顶部
+    var pageH = page.offsetHeight;
+    var rel = (y + navProbe - pageTop) / pageH; // 导航探针处在整张画布的进度
+    var onDark;
+    if(y < pageTop - navProbe) onDark = true;          // 还在深色 Hero
+    else onDark = rel >= 0.645;                        // 画布 64.5% 处由亮转暗
+    nav.classList.toggle('on-dark', onDark);
+
+    if(y < window.innerHeight*1.2){
+      parallaxEls.forEach(function(el){
+        var sp = parseFloat(el.getAttribute('data-parallax'));
+        el.style.transform = 'translate3d(0,'+(y*sp)+'px,0)';
+      });
+      heroVideo.style.transform = 'translate3d(0,'+(y*0.25)+'px,0)';
+    }
+
+    // 叙事粗曲线随滚动绘制
+    var rect = story.getBoundingClientRect();
+    var start = rect.top + y;
+    var prog = (y + window.innerHeight*0.62 - start) / rect.height;
+    curve.style.strokeDashoffset = curveLen * (1 - clamp(prog,0,1));
+
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if(!ticking){ requestAnimationFrame(onScroll); ticking = true; }
+  }, {passive:true});
+  onScroll();
+
+  var floatEls = document.querySelectorAll('[data-float]');
+  floatEls.forEach(function(el, i){
+    var speed = (parseFloat(el.getAttribute('data-float'))%3)*6 + 4;
+    el.style.transform = 'translate3d(0,'+(i%2? speed:-speed)+'px,0)';
+  });
+
+  var chapters = document.querySelectorAll('.chapter');
+  var nodes = document.querySelectorAll('.node');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('show');
+        var nd = document.getElementById(e.target.id.replace('ch','node'));
+        if(nd) nd.classList.add('active');
+      }
+    });
+  }, {threshold:0.25, rootMargin:'0px 0px -8% 0px'});
+  chapters.forEach(function(c){ io.observe(c); });
+
+  var nio = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('active'); });
+  }, {threshold:0.6});
+  nodes.forEach(function(n){ nio.observe(n); });
+
+  var bandImg = document.getElementById('bandImg');
+  var bandSection = document.querySelector('.storyband');
+  var bandIO = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var r = e.boundingClientRect;
+        var p = (window.innerHeight - r.top)/(window.innerHeight + r.height);
+        bandImg.style.transform = 'translate3d(0,'+((p-0.5)*-70)+'px,0)';
+      }
+    });
+  }, {threshold:[0,0.25,0.5,0.75,1]});
+  bandIO.observe(bandSection);
+})();
+</script>
+<script src="js/common.js"></script>
+</body>
+</html>

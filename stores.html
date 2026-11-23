@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>门店空间 — 慢焙咖啡 SLOW ROAST</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+<style>
+/* ---- 全屏 Hero ---- */
+.hero{position:relative;height:clamp(560px,78vh,860px);min-height:540px;overflow:hidden;background:var(--night);color:var(--white);display:flex;align-items:center}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,7,4,.86) 0%,rgba(12,7,4,.6) 42%,rgba(12,7,4,.15) 78%),linear-gradient(0deg,rgba(12,7,4,.6),transparent 40%)}
+.hero-inner{position:relative;z-index:2;width:100%}
+.hero .kicker{color:var(--amber)}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(46px,6.4vw,108px);line-height:1.06;margin-top:24px;max-width:900px}
+.hero h1 em{font-style:italic;color:var(--amber)}
+.hero .lead{margin-top:26px;font-size:clamp(14px,1.1vw,17px);line-height:1.9;color:rgba(246,241,234,.78);max-width:520px}
+.hero .actions{margin-top:36px}
+.hero .cap{position:absolute;left:var(--pad);bottom:30px;z-index:2;font-size:10px;letter-spacing:.26em;color:rgba(246,241,234,.6);text-transform:uppercase}
+
+/* ---- 空间说明 ---- */
+.spaces{background:var(--cream)}
+.space-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,64px)}
+.space .no{font-family:var(--serif);font-size:26px;color:var(--brown)}
+.space .ln{width:48px;height:2px;background:var(--brown);margin:16px 0 20px;opacity:.5}
+.space h3{font-family:var(--serif);font-weight:400;font-size:clamp(22px,2vw,30px);margin-bottom:12px}
+.space p{font-size:13px;line-height:1.85;color:var(--muted)}
+
+/* ---- 图片画廊 ---- */
+.gallery{background:var(--cream);padding-top:0}
+.gal-grid{display:grid;grid-template-columns:1.35fr 1fr;grid-template-rows:repeat(2,1fr);gap:clamp(14px,1.6vw,24px);height:clamp(420px,48vw,700px)}
+.gal-grid figure{overflow:hidden;border-radius:3px;position:relative}
+.gal-grid figure img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.gal-grid figure:hover img{transform:scale(1.05)}
+.gal-grid figure figcaption{position:absolute;left:16px;bottom:14px;font-size:11px;letter-spacing:.14em;color:var(--white);text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.gal-grid .main{grid-row:span 2}
+.gal-grid .main::after,.gal-grid figure::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(12,7,4,.32),transparent 42%);pointer-events:none}
+
+/* ---- 到店体验 ---- */
+.exp{background:var(--paper)}
+.exp-list{border-top:1px solid var(--line-light)}
+.exp-item{display:grid;grid-template-columns:60px 1fr 1.3fr 120px;gap:20px;align-items:center;padding:26px 8px;border-bottom:1px solid var(--line-light);transition:background .3s}
+.exp-item:hover{background:rgba(180,118,60,.05)}
+.exp-item .no{font-family:var(--serif);font-size:18px;color:var(--brown)}
+.exp-item h4{font-family:var(--serif);font-weight:400;font-size:clamp(20px,2vw,26px)}
+.exp-item .desc{font-size:13px;color:var(--muted);line-height:1.7}
+.exp-item .time{font-size:12px;color:var(--brown-2);text-align:right;white-space:nowrap}
+
+/* ---- 到店信息 ---- */
+.visit{background:var(--night-2);color:var(--white)}
+.visit .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(28px,4vw,60px)}
+.visit .kicker{color:var(--amber)}
+.visit h3{font-family:var(--serif);font-weight:400;font-size:clamp(22px,2vw,30px);margin-bottom:14px}
+.visit p,.visit a{font-size:14px;line-height:1.9;color:rgba(246,241,234,.66)}
+.visit a:hover{color:var(--amber)}
+.visit .btn-wrap{margin-top:34px}
+
+@media(max-width:960px){
+  .space-grid{grid-template-columns:1fr;gap:30px}
+  .space .ln{margin:10px 0 12px}
+  .gal-grid{grid-template-columns:1fr;grid-template-rows:none;height:auto}
+  .gal-grid .main{grid-row:auto;height:clamp(300px,60vw,480px)}
+  .gal-grid figure{height:clamp(220px,44vw,340px)}
+  .exp-item{grid-template-columns:44px 1fr 100px;gap:14px}
+  .exp-item .desc{grid-column:2 / 4}
+  .visit .grid{grid-template-columns:1fr;gap:30px}
+}
+@media(max-width:600px){
+  .hero h1{font-size:clamp(42px,11vw,64px)}
+  .exp-item{grid-template-columns:36px 1fr}
+  .exp-item .time{grid-column:2;text-align:left}
+  .exp-item .desc{grid-column:2}
+  .hero .actions .btn{width:100%}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="index.html" class="brand" aria-label="慢焙咖啡首页"><span class="mark"></span><div>慢焙<small>SLOW ROAST</small></div></a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html" data-page="index.html">首页</a>
+    <a href="beans.html" data-page="beans.html">精品咖啡豆</a>
+    <a href="story.html" data-page="story.html">品牌故事</a>
+    <a href="stores.html" data-page="stores.html">门店空间</a>
+    <a href="academy.html" data-page="academy.html">冲煮学院</a>
+  </div>
+  <a href="beans.html" class="nav-cta">立即选购 →</a>
+  <button class="nav-toggle" aria-label="打开菜单"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<header class="hero" data-theme="dark">
+  <img class="hero-img" src="assets/store-hero.jpg" alt="慢焙咖啡门店空间">
+  <div class="hero-shade"></div>
+  <div class="hero-inner">
+    <div class="wrap">
+      <div class="kicker reveal">Our Spaces · 门店空间</div>
+      <h1 class="reveal">一间可以<br><em>慢下来的店</em></h1>
+      <p class="lead reveal">两行长桌，一个吧台，和足够多的安静角落。这里不赶时间，只等你坐下来，好好喝一杯。</p>
+      <div class="actions reveal"><a href="#visit" class="btn btn-primary">到店看看 <span>→</span></a></div>
+    </div>
+  </div>
+  <div class="cap">CITY GUIDE · 4 STORES · OPEN DAILY</div>
+</header>
+
+<!-- 空间说明 -->
+<section class="section spaces" data-theme="light">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="kicker">The Space · 空间</div><h2 class="sec-title">为不同状态的你，<em>留出位置</em></h2></div>
+    </div>
+    <div class="space-grid">
+      <div class="space reveal"><div class="no">01</div><div class="ln"></div><h3>吧台区</h3><p>一种单一的专注。正对着咖啡师，看一颗豆子如何变成一杯咖啡。</p></div>
+      <div class="space reveal"><div class="no">02</div><div class="ln"></div><h3>长桌区</h3><p>六米长的实木桌。适合一本书、一台电脑，和不被打扰的下午。</p></div>
+      <div class="space reveal"><div class="no">03</div><div class="ln"></div><h3>窗边座</h3><p>靠近街角的位置。阳光会在不同时间，落在不同的地方。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 图片画廊 -->
+<section class="section gallery" data-theme="light">
+  <div class="wrap">
+    <div class="gal-grid reveal">
+      <figure class="main"><img src="assets/story-latte.jpg" alt="拉花与手冲"><figcaption>吧台 · 手冲体验</figcaption></figure>
+      <figure><img src="assets/craft-pour.jpg" alt="精致冲煮"><figcaption>器具 · 用心冲泡</figcaption></figure>
+      <figure><img src="assets/coffee-poster.jpg" alt="窗边咖啡"><figcaption>窗边 · 一个人的下午</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 到店体验 -->
+<section class="section exp" data-theme="light">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="kicker">In-store Experience · 到店体验</div><h2 class="sec-title">在店里，<em>可以做的事</em></h2></div>
+      <p class="right">不止是一杯咖啡。我们准备了一些值得花时间参与的小事。</p>
+    </div>
+    <div class="exp-list">
+      <div class="exp-item reveal"><div class="no">01</div><h4>晨间手冲</h4><div class="desc">每日 08:00 起，咖啡师现场为你冲煮当日精选豆。</div><div class="time">每日 08:00–11:00</div></div>
+      <div class="exp-item reveal"><div class="no">02</div><h4>烘焙分享</h4><div class="desc">每周三，和烘焙师聊聊一支豆子从生到熟的故事。</div><div class="time">周三 19:30</div></div>
+      <div class="exp-item reveal"><div class="no">03</div><h4>周末杯测</h4><div class="desc">六支豆子盲测，用鼻子重新认识咖啡的风味。</div><div class="time">周六 15:00</div></div>
+      <div class="exp-item reveal"><div class="no">04</div><h4>豆子带走</h4><div class="desc">现场挑选、现场研磨，把新鲜一路带回家。</div><div class="time">全天</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 到店信息 -->
+<section class="section visit" id="visit" data-theme="dark">
+  <div class="wrap">
+    <div class="grid">
+      <div class="reveal"><div class="kicker">Find Us</div><h3>今天，来坐一会儿</h3><p>慢焙咖啡 · 城南店<br>上海市静安区愚园路 118 号</p></div>
+      <div class="reveal"><div class="kicker">营业时间</div><h3>Open Daily</h3><p>每日 08:00 – 21:00<br>周末及节假日照常营业</p></div>
+      <div class="reveal"><div class="kicker">预约与联系</div><h3>Reservations</h3><p><a href="tel:021-88888888">021-8888 8888</a><br><a href="mailto:hello@slowroast.coffee">hello@slowroast.coffee</a></p></div>
+    </div>
+    <div class="btn-wrap reveal"><a href="academy.html" class="btn btn-primary">顺便看看冲煮学院 →</a></div>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer" data-theme="dark">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="fbrand">
+        <div class="fbrand-top"><span class="mark"></span><span class="fbrand-name">慢焙<small>SLOW ROAST</small></span></div>
+        <p>为慢下来的人，做一杯值得等待的好咖啡。从产地到杯中，认真对待每一个细节。</p>
+      </div>
+      <div><h5>探索</h5><ul>
+        <li><a href="index.html" data-page="index.html">首页</a></li>
+        <li><a href="beans.html" data-page="beans.html">精品咖啡豆</a></li>
+        <li><a href="stores.html" data-page="stores.html">门店空间</a></li>
+        <li><a href="academy.html" data-page="academy.html">冲煮学院</a></li>
+      </ul></div>
+      <div><h5>关于</h5><ul>
+        <li><a href="story.html" data-page="story.html">品牌故事</a></li>
+        <li><a href="story.html#belief">烘焙理念</a></li>
+        <li><a href="academy.html">冲煮指南</a></li>
+        <li><a href="stores.html#visit">联系我们</a></li>
+      </ul></div>
+      <div><h5>关注我们</h5><ul><li>微信公众号</li><li>小红书</li><li>微博</li><li>Instagram</li></ul></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 慢焙咖啡 SLOW ROAST. 保留所有权利。</span><span>隐私政策 · 服务条款</span></div>
+</footer>
+
+<script src="js/common.js"></script>
+</body>
+</html>
